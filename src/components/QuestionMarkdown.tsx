@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 type QuestionMarkdownProps = {
   text: string;
   className?: string;
@@ -81,19 +83,30 @@ function parseSegments(source: string): Segment[] {
 export function QuestionMarkdown({ text, className, compact = false }: QuestionMarkdownProps) {
   const value = (text || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
   const segments = parseSegments(value);
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
 
   return (
     <div className={`question-markdown ${compact ? 'question-markdown--compact' : ''} ${className ?? ''}`.trim()}>
       {segments.map((segment, index) => {
         if (segment.type === 'image') {
           return (
-            <img
+            <button
               key={`img-${index}-${segment.src}`}
-              src={segment.src}
-              alt={segment.alt}
-              className="question-markdown-image"
-              loading="lazy"
-            />
+              type="button"
+              className="question-markdown-image-button"
+              onClick={(event) => {
+                event.stopPropagation();
+                setLightbox({ src: segment.src, alt: segment.alt });
+              }}
+              aria-label={`Enlarge image: ${segment.alt}`}
+            >
+              <img
+                src={segment.src}
+                alt={segment.alt}
+                className="question-markdown-image"
+                loading="lazy"
+              />
+            </button>
           );
         }
 
@@ -103,6 +116,28 @@ export function QuestionMarkdown({ text, className, compact = false }: QuestionM
           </p>
         );
       })}
+
+      {lightbox ? (
+        <div
+          className="image-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.alt}
+          onClick={() => setLightbox(null)}
+        >
+          <div className="image-lightbox__inner" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              className="image-lightbox__close"
+              onClick={() => setLightbox(null)}
+              aria-label="Close image"
+            >
+              ×
+            </button>
+            <img src={lightbox.src} alt={lightbox.alt} className="image-lightbox__img" />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

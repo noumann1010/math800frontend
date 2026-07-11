@@ -1,11 +1,4 @@
-import type { BlogPost, ChoiceKey, Course, LessonItem, Plan, Question, Testimonial } from '../types';
-
-export const heroStats = [
-  { label: 'Students Coached', value: '15K+' },
-  { label: 'Improvement Rate', value: '100%' },
-  { label: 'Daily Questions', value: '300+' },
-  { label: 'Expert Coaches', value: '34' },
-];
+import type { BlogPost, ChoiceKey, Course, LessonItem, Plan, Question } from '../types';
 
 export const featureCards = [
   {
@@ -187,67 +180,21 @@ export const blogPosts: BlogPost[] = [
   },
 ];
 
-export const testimonials: Testimonial[] = [
-  {
-    id: 't-1',
-    name: 'Savannah Nguyen',
-    role: 'Class of 2027',
-    quote:
-      'I moved from 610 to 760 because the practice was targeted exactly to my weak concepts.',
-    avatar:
-      'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=300&q=80',
-    score: 5,
-  },
-  {
-    id: 't-2',
-    name: 'Aamir Khan',
-    role: 'Class of 2026',
-    quote:
-      'The dashboard made my progress obvious. I knew what to study every day without guessing.',
-    avatar:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
-    score: 5,
-  },
-  {
-    id: 't-3',
-    name: 'Emma Carter',
-    role: 'Parent',
-    quote:
-      'The structure is better than private tutoring because feedback is immediate and measurable.',
-    avatar:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-    score: 5,
-  },
-];
-
 export const pricingPlans: Plan[] = [
   {
-    id: 'starter-beta',
-    name: 'Starter Beta',
-    description: 'Great for new students',
+    id: 'free-access',
+    name: 'Full Access',
+    description: 'Everything Math800 offers, free for every student',
     price: 0,
-    billing: 'Beta',
-    cta: 'Start beta',
-    perks: ['Diagnostics intro', '5 adaptive sets', 'Progress snapshot'],
-  },
-  {
-    id: 'full-beta',
-    name: 'Full Beta Access',
-    description: 'Most popular while in beta',
-    price: 0,
-    billing: 'Beta',
+    billing: 'Free',
     featured: true,
-    cta: 'Join full beta',
-    perks: ['Unlimited sets', 'Weekly analytics', 'Practice streak rewards'],
-  },
-  {
-    id: 'coach-beta',
-    name: 'Coach Beta',
-    description: 'For mentors and school support',
-    price: 0,
-    billing: 'Beta',
-    cta: 'Request coach beta',
-    perks: ['Admin dashboard', 'Group assignments', 'Dedicated support'],
+    cta: 'Start learning',
+    perks: [
+      'Adaptive practice sessions',
+      'Full diagnostic test',
+      'Weekly analytics',
+      'Concept-level mastery tracking',
+    ],
   },
 ];
 

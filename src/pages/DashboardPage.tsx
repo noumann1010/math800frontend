@@ -25,8 +25,8 @@ export function DashboardPage() {
               <button className="btn btn--ghost" onClick={() => navigate('/practice')}>
                 Practice mode
               </button>
-              <button className="btn btn--solid" onClick={() => navigate('/full-test')}>
-                Full test mode
+              <button className="btn btn--solid" onClick={() => navigate('/diagnostic')}>
+                Diagnostic test
               </button>
             </div>
           </div>
@@ -37,10 +37,10 @@ export function DashboardPage() {
             <CourseCard
               key={course.id}
               course={course}
-              primaryLabel="Enter Course"
+              primaryLabel="Open Bootcamp"
               onPrimaryAction={(selected) => {
                 setSelectedCourse(selected);
-                notify(`Entering ${selected.title}`, 'success');
+                notify(`Opening ${selected.title}`, 'success');
                 navigate(`/courses/${selected.id}`);
               }}
             />
@@ -73,10 +73,10 @@ export function DashboardPage() {
               <CourseCard
                 key={course.id}
                 course={course}
-                primaryLabel="Enter Course"
+                primaryLabel="Open Bootcamp"
                 onPrimaryAction={(selected) => {
                   setSelectedCourse(selected);
-                  notify(`Entering ${selected.title}`, 'success');
+                  notify(`Opening ${selected.title}`, 'success');
                   navigate(`/courses/${selected.id}`);
                 }}
               />

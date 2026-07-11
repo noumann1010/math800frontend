@@ -26,14 +26,7 @@ export function CourseCard({
           <Link to={`/courses/${course.id}`}>{course.title}</Link>
         </h3>
         <p>{course.description}</p>
-        <div className="course-card__instructor">
-          <span>{course.instructor}</span>
-          <span className="beta-chip">Beta: Free Temporarily</span>
-        </div>
         <div className="course-card__actions">
-          <Link to={`/courses/${course.id}`} className="btn btn--ghost">
-            Enter
-          </Link>
           <button className="btn btn--solid" onClick={() => onPrimaryAction?.(course)}>
             {primaryLabel}
           </button>

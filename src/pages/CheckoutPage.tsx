@@ -12,14 +12,14 @@ export function CheckoutPage() {
     <main className="section">
       <div className="container checkout-grid">
         <section className="checkout-card">
-          <h1>Beta Access</h1>
-          <p className="muted">No payment required right now</p>
+          <h1>Get Started</h1>
+          <p className="muted">No payment required — ever</p>
 
           <div className="beta-banner beta-banner--large">
-            <strong>Free Temporarily</strong>
+            <strong>Free Forever</strong>
             <p>
-              Payment and subscriptions are disabled while we are in active beta development.
-              You can access learning content for free.
+              Math800 is completely free. There is nothing to pay and nothing to unlock — just jump
+              straight into practice or a diagnostic test.
             </p>
           </div>
 
@@ -27,14 +27,14 @@ export function CheckoutPage() {
             <button
               className="btn btn--solid"
               onClick={() => {
-                notify('Beta access activated for this course', 'success');
+                notify('You are all set — everything is free.', 'success');
                 navigate('/practice');
               }}
             >
               Continue to Practice
             </button>
-            <button className="btn btn--ghost" onClick={() => navigate('/full-test')}>
-              Start Full Test
+            <button className="btn btn--ghost" onClick={() => navigate('/diagnostic')}>
+              Start Diagnostic Test
             </button>
           </div>
         </section>
@@ -46,17 +46,17 @@ export function CheckoutPage() {
             <div>
               <h3>{course.title}</h3>
               <p>{course.description.slice(0, 90)}...</p>
-              <strong className="beta-chip">Free in Beta</strong>
+              <strong className="beta-chip">Free</strong>
             </div>
           </div>
 
           <div className="summary-line">
             <span>Status</span>
-            <span>Beta Open</span>
+            <span>Open</span>
           </div>
           <div className="summary-line">
             <span>Billing</span>
-            <span>Temporarily Disabled</span>
+            <span>None</span>
           </div>
           <div className="summary-line summary-line--total">
             <span>Amount Due</span>

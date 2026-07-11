@@ -5,6 +5,7 @@ import {
   pricingPlans,
 } from '../data/mockData';
 import type {
+  AdaptiveNextResponse,
   AnalyticsOverview,
   ApiResponse,
   AttemptResult,
@@ -528,6 +529,48 @@ export const api = {
     return normalizeAttemptResult(result);
   },
 
+  async getAdaptiveNext(
+    firebaseIdToken: string,
+    state: {
+      seenQuestionIds: number[];
+      lastCorrect: boolean | null;
+      currentDifficulty: number | null;
+      skills?: number[];
+    },
+  ): Promise<AdaptiveNextResponse> {
+    const token = requireToken(firebaseIdToken);
+    const body: Record<string, unknown> = {
+      seen_question_ids: state.seenQuestionIds
+        .map((id) => Math.trunc(id))
+        .filter((id) => Number.isFinite(id)),
+      last_correct: state.lastCorrect,
+      current_difficulty: state.currentDifficulty,
+    };
+    if (state.skills?.length) {
+      body.skills = state.skills.map((s) => Math.trunc(s)).filter((s) => Number.isFinite(s));
+    }
+
+    const result = await request<unknown>('/practice/next', {
+      method: 'POST',
+      firebaseIdToken: token,
+      body: JSON.stringify(body),
+    });
+
+    const source = isRecord(result) ? result : {};
+    const rawQuestion = (source as { question?: unknown }).question;
+    const question = rawQuestion ? normalizePracticeQuestion(rawQuestion) : null;
+
+    return {
+      question,
+      target_difficulty: toFiniteNumber((source as { target_difficulty?: unknown }).target_difficulty, 3),
+      target_skill_id:
+        typeof (source as { target_skill_id?: unknown }).target_skill_id === 'number'
+          ? ((source as { target_skill_id: number }).target_skill_id)
+          : null,
+      exhausted: Boolean((source as { exhausted?: unknown }).exhausted) || question === null,
+    };
+  },
+
   async createTestSession(firebaseIdToken: string, count = 22): Promise<TestSession> {
     const token = requireToken(firebaseIdToken);
     const nextCount = Math.min(60, Math.max(5, Math.trunc(count || 22)));
@@ -642,7 +685,7 @@ export const api = {
     if (courseId !== PRIMARY_COURSE_ID) {
       return {
         success: false,
-        message: 'Course not available in current beta.',
+        message: 'Course not available.',
         data: null,
       };
     }

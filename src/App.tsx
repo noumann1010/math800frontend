@@ -25,7 +25,7 @@ import { LessonWorkspacePage } from './pages/LessonWorkspacePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { PricingPage } from './pages/PricingPage';
 import { PracticePage } from './pages/PracticePage';
-import { FullTestPage } from './pages/FullTestPage';
+import { DiagnosticTestPage } from './pages/DiagnosticTestPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -60,7 +60,8 @@ function AnimatedRoutes() {
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/practice" element={<PracticePage />} />
-            <Route path="/full-test" element={<FullTestPage />} />
+            <Route path="/diagnostic" element={<DiagnosticTestPage />} />
+            <Route path="/full-test" element={<Navigate to="/diagnostic" replace />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/careers" element={<LegalPage />} />

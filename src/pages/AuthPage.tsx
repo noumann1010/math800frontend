@@ -169,7 +169,7 @@ export function AuthPage() {
           </button>
         </form>
 
-        <p className="auth-footnote">Beta access is free temporarily while we validate the product.</p>
+        <p className="auth-footnote">Math800 is completely free — no payment required, ever.</p>
       </section>
     </main>
   );

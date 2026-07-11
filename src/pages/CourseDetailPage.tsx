@@ -102,7 +102,7 @@ function buildCourseUnits(courseId: string): CourseUnit[] {
           title: 'Practice Quiz: Advanced Mix',
           duration: '26 mins',
           focus: 'Mixed medium-hard SAT style questions.',
-          summary: 'Reinforces pacing and precision before full tests.',
+          summary: 'Reinforces pacing and precision before the diagnostic test.',
         },
       ],
     },
@@ -129,7 +129,7 @@ function buildCourseUnits(courseId: string): CourseUnit[] {
           title: 'Capstone Quiz: SAT Mastery',
           duration: '30 mins',
           focus: 'Final checkpoint before full-length testing.',
-          summary: 'Simulates pressure and verifies readiness for 22-question full test mode.',
+          summary: 'Simulates pressure and verifies readiness for the 22-question diagnostic test.',
         },
       ],
     },
@@ -227,10 +227,10 @@ export function CourseDetailPage() {
     navigate('/practice');
   };
 
-  const openFullTest = () => {
+  const openDiagnosticTest = () => {
     setSelectedCourse(course);
-    notify('Opening full test mode (22 questions)', 'success');
-    navigate('/full-test');
+    notify('Opening diagnostic test (22 questions)', 'success');
+    navigate('/diagnostic');
   };
 
   return (
@@ -293,8 +293,8 @@ export function CourseDetailPage() {
             <button className="btn btn--solid" onClick={openPracticeSet}>
               Practice Set
             </button>
-            <button className="btn btn--ghost" onClick={openFullTest}>
-              Full Test
+            <button className="btn btn--ghost" onClick={openDiagnosticTest}>
+              Diagnostic Test
             </button>
           </div>
         </aside>
@@ -310,30 +310,21 @@ export function CourseDetailPage() {
               <button className="btn btn--solid" onClick={openPracticeSet}>
                 Generate Practice Set
               </button>
-              <button className="btn btn--ghost" onClick={openFullTest}>
-                Generate Full Test
+              <button className="btn btn--ghost" onClick={openDiagnosticTest}>
+                Generate Diagnostic Test
               </button>
             </div>
           </header>
 
           <article className="course-learning-panel">
             <img src={course.image} alt={course.title} className="course-learning-image" />
-            <div className="video-progress">
-              <span>{selectedLesson?.duration ?? '30 mins'}</span>
-              <div className="progress-line">
-                <span />
-              </div>
-              <span>In Progress</span>
-            </div>
 
             <h2>{selectedLesson?.focus ?? 'SAT Math focus training'}</h2>
             <p>{selectedLesson?.summary ?? course.description}</p>
 
             <div className="course-learning-meta">
-              <span>Instructor: {course.instructor}</span>
               <span>Level: {course.level}</span>
-              <span>Rating: {course.rating.toFixed(1)}</span>
-              <span>Beta Access: Free Temporarily</span>
+              <span>Format: Guided lessons + adaptive practice</span>
             </div>
 
             <div className="course-learning-content-grid">
@@ -350,7 +341,7 @@ export function CourseDetailPage() {
                 <h3>Recommended next actions</h3>
                 <ul>
                   <li>Run a practice set after each unit to lock in retention.</li>
-                  <li>Take full test mode weekly to benchmark progress.</li>
+                  <li>Take the diagnostic test periodically to benchmark progress.</li>
                   <li>Review explanations and missed-skill tags after every attempt.</li>
                 </ul>
               </section>

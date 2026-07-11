@@ -6,7 +6,7 @@ import { signOutFromFirebase } from '../lib/firebase';
 const navLinks = [
   { label: 'Home', to: '/' },
   { label: 'About Us', to: '/about' },
-  { label: 'Courses', to: '/courses' },
+  { label: 'Bootcamp', to: '/courses' },
   { label: 'Blog', to: '/blog' },
   { label: 'Contact Us', to: '/contact' },
   { label: 'FAQ', to: '/pricing#faq' },

@@ -1,13 +1,10 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { CourseCard } from '../components/CourseCard';
 import { FadeIn } from '../components/FadeIn';
-import { courses, featureCards, heroStats, testimonials } from '../data/mockData';
-import { useAppContext } from '../context/useAppContext';
+import { featureCards, PRIMARY_COURSE_ID } from '../data/mockData';
 
 export function HomePage() {
   const navigate = useNavigate();
-  const { setSelectedCourse, notify } = useAppContext();
 
   return (
     <main>
@@ -15,18 +12,22 @@ export function HomePage() {
         <div className="container hero__content">
           <div>
             <FadeIn>
-              <p className="eyebrow">Advance your potential</p>
+              <p className="eyebrow">Advance your potential · Always free</p>
               <h1>Master SAT Math with adaptive tutoring that targets your exact gaps.</h1>
               <p>
                 Welcome to Math800, the SAT tutoring platform designed to help students
                 reach top scores through machine-learning diagnostics and strategic practice.
+                It is completely free — no fees, ever.
               </p>
               <div className="hero__actions">
                 <button className="btn btn--solid" onClick={() => navigate('/auth')}>
                   Get Started
                 </button>
-                <button className="btn btn--ghost" onClick={() => navigate('/pricing')}>
-                  Free During Beta
+                <button
+                  className="btn btn--ghost"
+                  onClick={() => navigate(`/courses/${PRIMARY_COURSE_ID}`)}
+                >
+                  Explore Lessons
                 </button>
               </div>
             </FadeIn>
@@ -43,17 +44,6 @@ export function HomePage() {
               alt="Student preparing for SAT math"
             />
           </motion.div>
-        </div>
-      </section>
-
-      <section className="section section--tight">
-        <div className="container stats-grid">
-          {heroStats.map((item, index) => (
-            <FadeIn key={item.label} delay={index * 0.07} className="stat-card">
-              <strong>{item.value}</strong>
-              <p>{item.label}</p>
-            </FadeIn>
-          ))}
         </div>
       </section>
 
@@ -100,57 +90,6 @@ export function HomePage() {
               alt="Students collaborating"
             />
           </FadeIn>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">Recommended for you</p>
-              <h2>Popular SAT Math courses</h2>
-            </div>
-            <button className="btn btn--ghost" onClick={() => navigate('/courses')}>
-              View all courses
-            </button>
-          </div>
-
-          <div className="course-grid">
-            {courses.slice(0, 3).map((course, index) => (
-              <FadeIn key={course.id} delay={index * 0.08}>
-                <CourseCard
-                  course={course}
-                  primaryLabel="Open Lessons"
-                  onPrimaryAction={(selected) => {
-                    setSelectedCourse(selected);
-                    notify(`Opening ${selected.title}`, 'success');
-                    navigate(`/courses/${selected.id}`);
-                  }}
-                />
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--muted">
-        <div className="container">
-          <FadeIn>
-            <p className="eyebrow">Student Voices</p>
-            <h2>What our students have to say</h2>
-          </FadeIn>
-
-          <div className="testimonial-grid">
-            {testimonials.map((testimonial, index) => (
-              <FadeIn key={testimonial.id} delay={index * 0.1} className="testimonial-card">
-                <img src={testimonial.avatar} alt={testimonial.name} />
-                <h3>{testimonial.name}</h3>
-                <p className="testimonial-role">{testimonial.role}</p>
-                <p>{testimonial.quote}</p>
-                <div className="stars">{'★'.repeat(testimonial.score)}</div>
-              </FadeIn>
-            ))}
-          </div>
         </div>
       </section>
     </main>

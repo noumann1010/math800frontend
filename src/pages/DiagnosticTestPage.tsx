@@ -5,9 +5,9 @@ import { useAppContext } from '../context/useAppContext';
 import { api } from '../lib/api';
 import type { ChoiceKey, TestSession } from '../types';
 
-const FULL_TEST_QUESTION_COUNT = 22;
+const DIAGNOSTIC_QUESTION_COUNT = 22;
 
-export function FullTestPage() {
+export function DiagnosticTestPage() {
   const [session, setSession] = useState<TestSession | null>(null);
   const [answersByQuestionId, setAnswersByQuestionId] = useState<Record<number, ChoiceKey>>({});
   const [loadingSession, setLoadingSession] = useState(false);
@@ -34,29 +34,29 @@ export function FullTestPage() {
 
   const startSession = async () => {
     if (!firebaseIdToken) {
-      notify('Sign in first to start a full test session.', 'error');
+      notify('Sign in first to start a diagnostic test.', 'error');
       return;
     }
 
     try {
       setLoadingSession(true);
       setSubmitSummary(null);
-      const nextSession = await api.createTestSession(firebaseIdToken, FULL_TEST_QUESTION_COUNT);
+      const nextSession = await api.createTestSession(firebaseIdToken, DIAGNOSTIC_QUESTION_COUNT);
       setSession(nextSession);
       setAnswersByQuestionId({});
 
       const returnedCount = nextSession.questions.length;
 
-      if (returnedCount !== FULL_TEST_QUESTION_COUNT) {
+      if (returnedCount !== DIAGNOSTIC_QUESTION_COUNT) {
         notify(
-          `Expected ${FULL_TEST_QUESTION_COUNT} questions, received ${returnedCount}. This points to backend session generation, not frontend rendering.`,
+          `Expected ${DIAGNOSTIC_QUESTION_COUNT} questions, received ${returnedCount}. This points to backend question availability, not frontend rendering.`,
           'error',
         );
       } else {
-        notify(`Test session #${nextSession.id} started with ${returnedCount} questions`, 'success');
+        notify(`Diagnostic test #${nextSession.id} started with ${returnedCount} questions`, 'success');
       }
     } catch (error) {
-      notify((error as Error).message || 'Could not start test session', 'error');
+      notify((error as Error).message || 'Could not start the diagnostic test', 'error');
     } finally {
       setLoadingSession(false);
     }
@@ -78,7 +78,7 @@ export function FullTestPage() {
       setSubmitSummary({ correct: result.correct, total: result.total, accuracy: result.accuracy });
       notify(`Submitted: ${result.correct}/${result.total}`, 'success');
     } catch (error) {
-      notify((error as Error).message || 'Test submission failed', 'error');
+      notify((error as Error).message || 'Diagnostic submission failed', 'error');
     } finally {
       setSubmitting(false);
     }
@@ -98,8 +98,8 @@ export function FullTestPage() {
     return (
       <main className="section">
         <div className="container empty-state">
-          <h1>Full Test Mode</h1>
-          <p>Sign in to access your protected full test sessions.</p>
+          <h1>Diagnostic Test</h1>
+          <p>Sign in to take your diagnostic test.</p>
           <button className="btn btn--solid" onClick={() => navigate('/auth')}>
             Go to Login
           </button>
@@ -113,11 +113,11 @@ export function FullTestPage() {
       <div className="container practice-shell">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Full Test Mode</p>
-            <h1>Backend Ordered Session</h1>
+            <p className="eyebrow">Diagnostic Test</p>
+            <h1>Baseline Assessment</h1>
             <p>
-              Questions are rendered in backend `order_index` order. Answers are held locally and
-              submitted once.
+              A broad, fixed set of questions spanning every SAT Math skill and difficulty tier. It
+              maps your strengths and gaps so adaptive practice can target the right areas next.
             </p>
           </div>
           <div className="practice-actions">
@@ -132,7 +132,7 @@ export function FullTestPage() {
 
         <div className="test-actions">
           <button className="btn btn--solid" onClick={startSession} disabled={loadingSession}>
-            {loadingSession ? 'Starting...' : 'Start New Test Session'}
+            {loadingSession ? 'Starting...' : 'Start New Diagnostic Test'}
           </button>
 
           <button
@@ -140,14 +140,14 @@ export function FullTestPage() {
             onClick={submitSession}
             disabled={!session || submitting || orderedQuestions.length === 0}
           >
-            {submitting ? 'Submitting...' : 'Submit Session'}
+            {submitting ? 'Submitting...' : 'Submit Diagnostic'}
           </button>
         </div>
 
         {submitSummary ? (
           <div className="attempt-feedback is-correct">
             <p>
-              Session Result: {submitSummary.correct}/{submitSummary.total} (
+              Diagnostic Result: {submitSummary.correct}/{submitSummary.total} (
               {Math.round(submitSummary.accuracy * 100)}%)
             </p>
           </div>
@@ -199,7 +199,7 @@ export function FullTestPage() {
 
         {!loadingSession && session && orderedQuestions.length === 0 ? (
           <div className="empty-state">
-            <p>No valid questions were returned for this session. Please start a new test session.</p>
+            <p>No valid questions were returned. Please start a new diagnostic test.</p>
           </div>
         ) : null}
       </div>

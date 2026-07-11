@@ -102,6 +102,13 @@ export type PracticeQuestion = {
 export type QuestionId = number;
 export type Question = PracticeQuestion;
 
+export type AdaptiveNextResponse = {
+  question: PracticeQuestion | null;
+  target_difficulty: number;
+  target_skill_id: number | null;
+  exhausted: boolean;
+};
+
 export type AttemptResult = {
   attempt_id: number;
   is_correct: boolean;
