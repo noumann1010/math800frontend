@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import { MainLayout } from './components/MainLayout';
 import { ToastViewport } from './components/ToastViewport';
-import { AppProvider } from './context/AppContext';
+import { AppProvider, useAppContext } from './context/AppContext';
 import { AboutPage } from './pages/AboutPage';
 import { AuthPage } from './pages/AuthPage';
 import { BlogDetailPage } from './pages/BlogDetailPage';
@@ -19,7 +19,6 @@ import { ContactPage } from './pages/ContactPage';
 import { CourseDetailPage } from './pages/CourseDetailPage';
 import { CoursesPage } from './pages/CoursesPage';
 import { DashboardPage } from './pages/DashboardPage';
-import { HomePage } from './pages/HomePage';
 import { LegalPage } from './pages/LegalPage';
 import { LessonWorkspacePage } from './pages/LessonWorkspacePage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -37,6 +36,11 @@ function ScrollToTop() {
   return null;
 }
 
+function HomeRedirect() {
+  const { user } = useAppContext();
+  return <Navigate to={user ? '/dashboard' : '/auth'} replace />;
+}
+
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -51,7 +55,7 @@ function AnimatedRoutes() {
       >
         <Routes location={location}>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomeRedirect />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/courses/:courseId" element={<CourseDetailPage />} />
