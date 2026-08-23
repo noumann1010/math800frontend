@@ -4,9 +4,8 @@ import { useAppContext } from '../context/useAppContext';
 import { signOutFromFirebase } from '../lib/firebase';
 
 const navLinks = [
-  { label: 'Home', to: '/' },
   { label: 'About Us', to: '/about' },
-  { label: 'Bootcamp', to: '/courses' },
+  { label: 'Dashboard', to: '/dashboard', authOnly: true },
   { label: 'Blog', to: '/blog' },
   { label: 'Contact Us', to: '/contact' },
   { label: 'FAQ', to: '/pricing#faq' },
@@ -54,34 +53,35 @@ export function Navbar() {
             Math800
           </Link>
 
-          <form className="explore-search" onSubmit={handleSearch}>
-            <input
-              type="search"
-              placeholder="Want to learn?"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-            <button type="submit">Explore</button>
-          </form>
+          {user && (
+            <form className="explore-search" onSubmit={handleSearch}>
+              <input
+                type="search"
+                placeholder="Want to learn?"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+              <button type="submit">Explore</button>
+            </form>
+          )}
         </div>
 
         <div className="nav-right">
           <nav className="site-nav">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) => (isActive ? 'is-active' : '')}
-              >
-                {link.label}
-              </NavLink>
-            ))}
+            {navLinks
+              .filter((link) => !link.authOnly || user)
+              .map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className={({ isActive }) => (isActive ? 'is-active' : '')}
+                >
+                  {link.label}
+                </NavLink>
+              ))}
           </nav>
 
           <div className="nav-actions">
-            <button className="btn btn--ghost" onClick={() => navigate('/dashboard')}>
-              Dashboard
-            </button>
             <button className="btn btn--solid" onClick={handleAuthAction}>
               {user ? 'Sign out' : 'Sign in'}
             </button>
