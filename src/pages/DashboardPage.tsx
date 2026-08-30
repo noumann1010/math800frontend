@@ -37,7 +37,7 @@ export function DashboardPage() {
             <CourseCard
               key={course.id}
               course={course}
-              primaryLabel="Open Bootcamp"
+              primaryLabel="Open Bootcamp blah blah"
               onPrimaryAction={(selected) => {
                 setSelectedCourse(selected);
                 notify(`Opening ${selected.title}`, 'success');
